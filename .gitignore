@@ -2,11 +2,15 @@
 .venv/ 
 app/__pycache__
 app/routers/__pycache__
+app/controllers/__pycache__
+app/database/__pycache__
+app/schemas/__pycache__
 README.md 
 .env 
 database/__pycache__
 dotenv 
 requirements.txt 
-app/controllers
 app/middleware 
 app/schemas
+app/dependencies/__pycache__
+app/security/__pycache__
