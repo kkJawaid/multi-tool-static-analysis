@@ -5,6 +5,7 @@ from app.security.jwt import ( create_access_token )
 def check_uniqueness(user):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
+    # intentionally vulnerable
     query = f"""
     SELECT user_name, user_email FROM users
     WHERE user_name='{user.username}' and user_email='{user.email}'
@@ -31,6 +32,7 @@ def register_user(user):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     hashed = hash_password(user.password)
+    # intentionally vulnerable
     query = f"""
         INSERT INTO users
         (user_name, user_email, user_password)
