@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.schemas.user_auth_schema import ( RegistrationRequest, LoginRequest )
 from app.controllers.user_auth_controller import ( register_user, login_user )
 
-router = APIRouter(prefix="/auth", tags=["Authentication Flow"])
+router = APIRouter(prefix="/auth", tags=["Auth Flow"])
 
 @router.post("/registration")
 def user_registration(user: RegistrationRequest):
