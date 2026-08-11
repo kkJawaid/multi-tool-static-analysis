@@ -97,7 +97,7 @@ def fetch_comments(blogId):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT b.blog_title, u.user_name, c.comment_text
+    SELECT b.blog_title, u.user_name, c.comment_text, c.comment_id
     FROM blogs b
     INNER JOIN users u
     ON b.user_id = u.user_id
