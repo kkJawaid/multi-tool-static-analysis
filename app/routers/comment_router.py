@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.dependencies.auth import get_current_user
-from app.controllers.comment_controller import (create_comment_controller, update_comment_controller, delete_comment_controller)
+from app.controllers.comment_controller import (create_comment_controller, update_comment_controller, delete_comment_controller, find_related_comments_controller)
 from app.schemas.comment_schema import (CreateCommentRequest)
 
 router = APIRouter(prefix="/comments", tags=["Comments"])
@@ -17,3 +17,8 @@ def update_comment_router(blogId: int, commentId:int, comment: CreateCommentRequ
 @router.delete("/{blogId}/{commentId}")
 def delete_comment_router(blogId: int, commentId: int, current_user: dict = Depends(get_current_user)):
     return delete_comment_controller( blogId, commentId)
+
+# intentionally vulnerable
+@router.get("/{commentId}")
+def find_related_comments_router(commentId: int):
+    return find_related_comments_controller(commentId)
