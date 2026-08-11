@@ -21,7 +21,7 @@ def get_user_blogs_controller(userId):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-            SELECT b.blog_title, b.blog_text, b.published_date, b.edited_date, b.blog_status, u.user_name
+            SELECT b.blog_id, b.blog_title, b.blog_text, b.published_date, b.edited_date, b.blog_status, u.user_name
             FROM blogs b 
             INNER JOIN 
             users u 

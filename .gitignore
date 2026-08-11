@@ -12,3 +12,4 @@ dotenv
 requirements.txt 
 app/dependencies/__pycache__
 app/security/__pycache__
+app/tests/__pycache__
