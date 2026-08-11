@@ -15,4 +15,4 @@ app.include_router(comment_router.router)
 
 @app.get("/")
 def landing():
-    return {"Hello from my vulnerable blog API"}
+    return {"Hello from my (intentionally) vulnerable blog API"}
