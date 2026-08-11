@@ -84,17 +84,24 @@ def update_user_profile_controller(user,userId):
     update_fields = []
     values = []
 
-    if "username" in user:
-        update_fields.append("user_name = %s")
-        values.append(user["username"])
+    # if "username" in user:
+    #     update_fields.append("user_name = %s")
+    #     values.append(user["username"])
 
-    if "email" in user:
-        update_fields.append("user_email = %s")
-        values.append(user["email"])
+    # if "email" in user:
+    #     update_fields.append("user_email = %s")
+    #     values.append(user["email"])
 
-    if "password" in user:
-        update_fields.append("user_password = %s")
-        values.append(user["password"])
+    # # plain text vulnerability
+    # if "password" in user:
+    #     update_fields.append("user_password = %s")
+    #     values.append(user["password"])
+
+    # intentional vulnerability: 
+    # column name taken directly from user input, not validated against a whitelist of real column names
+    for field_name, field_value in user.items():
+        update_fields.append(f"{field_name} = %s")
+        values.append(field_value)
 
     query = f"""
         UPDATE users

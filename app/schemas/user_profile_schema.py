@@ -2,6 +2,6 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import Optional 
 
 class UpdateUserRequest(BaseModel):
-    username: Optional[str] = Field(default = None, min_length=5)
-    email: Optional[EmailStr] = Field(default = None)
-    password: Optional[str] = Field(default = None, min_length=8)
+    user_name: Optional[str] = Field(default = None, min_length=5)
+    user_email: Optional[EmailStr] = Field(default = None)
+    user_password: Optional[str] = Field(default = None, min_length=8)
