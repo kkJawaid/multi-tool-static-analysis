@@ -5,14 +5,13 @@ from app.security.jwt import ( create_access_token )
 def check_uniqueness(user):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    # intentionally vulnerable
-    query = f"""
+    # clean version 
+    query = """
     SELECT user_name, user_email FROM users
-    WHERE user_name='{user.username}' and user_email='{user.email}'
+    WHERE user_name=%s and user_email=%s
     """
-    #values = (user.username, user.email)
-    #cursor.execute(query, values)
-    cursor.execute(query)
+    values = (user.username, user.email)
+    cursor.execute(query, values)
     result = cursor.fetchone()
     conn.close()
     cursor.close()
@@ -32,15 +31,14 @@ def register_user(user):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     hashed = hash_password(user.password)
-    # intentionally vulnerable
-    query = f"""
+    # clean version
+    query = """
         INSERT INTO users
         (user_name, user_email, user_password)
-        VALUES('{user.username}','{user.email}','{hashed}')
+        VALUES(%s,%s,%s)
     """
-    #values = (user.username, user.email, hashed)
-    #cursor.execute(query, values)
-    cursor.execute(query)
+    values = (user.username, user.email, hashed)
+    cursor.execute(query, values)
     conn.commit()
     cursor.close()
     conn.close()
@@ -52,15 +50,14 @@ def register_user(user):
 def login_user(user):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-
-    query = f"""
+    # clean version
+    query = """
     SELECT user_id, user_name, user_email, user_password
     FROM users
-    WHERE user_email = '{user.email}'
+    WHERE user_email = %s
     """
-    #values = (user.email,)
-    #cursor.execute(query, values)
-    cursor.execute(query)
+    values = (user.email,)
+    cursor.execute(query, values)
     result = cursor.fetchone()
     if result == None:
             return {

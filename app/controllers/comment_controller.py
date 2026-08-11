@@ -88,7 +88,7 @@ def delete_comment_controller(blogId, commentId):
         "message": "Comment successfully deleted."
     }
 
-# intentional vulnerability 
+# clean version
 # separating injection point and execution point to demonstrate inter-procedural vulnerability
 def find_related_comments_controller(commentId):
     conn = get_connection()
@@ -105,14 +105,14 @@ def find_related_comments_controller(commentId):
 def search_comments_admin(keyword_from_stored_comment):
     conn = get_connection()
     cursor = conn.cursor()
-    # intentional second-order SQLi: 
-    # keyword_from_stored_comment originates from a previously stored, unsanitized comment_text value
-    query = f"""
+    # clean version 
+    query = """
     SELECT comment_id, comment_text, user_id
     FROM comments
-    WHERE comment_text LIKE '%{keyword_from_stored_comment}%'
+    WHERE comment_text LIKE '%s'
     """
-    cursor.execute(query)
+    values=(keyword_from_stored_comment,)
+    cursor.execute(query, values)
     result = cursor.fetchall()
     cursor.close()
     conn.close()

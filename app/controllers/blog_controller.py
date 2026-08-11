@@ -18,21 +18,14 @@ def fetch_all_blogs():
 def fetch_specific_blog(blogId):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    
-    # query = """
-    # SELECT * FROM blogs
-    # WHERE blog_id = %s;
-    # """
-    # values = (blogId,)
-    # cursor.execute(query, values)
 
-    # intentionally vulnerable
-    query = f"""
+    # clean version
+    query = """
     SELECT * FROM blogs
-    WHERE blog_id = {blogId};
+    WHERE blog_id = %s;
     """
-    cursor.execute(query)
-
+    values = (blogId,)
+    cursor.execute(query, values)
     result = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -54,27 +47,17 @@ def fetch_specific_blog(blogId):
 def search_blog(search: str):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    # query = """
-    # SELECT b.blog_title, b.blog_text, b.published_date, b.edited_date, b.blog_status, u.user_name
-    # FROM blogs b
-    # INNER JOIN users u
-    # ON b.user_id = u.user_id
-    # WHERE b.blog_title REGEXP %s OR b.blog_text REGEXP %s
-    # ;
-    # """
-    # values = (search, search)
-    # cursor.execute(query, values)
-
-    # intentionally vulnerable
-    query = f"""
+    # clean version
+    query = """
     SELECT b.blog_title, b.blog_text, b.published_date, b.edited_date, b.blog_status, u.user_name
     FROM blogs b
     INNER JOIN users u
     ON b.user_id = u.user_id
-    WHERE b.blog_title REGEXP '{search}' OR b.blog_text REGEXP '{search}'
+    WHERE b.blog_title REGEXP %s OR b.blog_text REGEXP %s
     ;
     """
-    cursor.execute(query)
+    values = (search, search)
+    cursor.execute(query, values)
     
     result = cursor.fetchall()
     cursor.close()
